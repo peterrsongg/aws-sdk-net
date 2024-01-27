@@ -65,3 +65,7 @@ codesign-zip
 /sdk/src/netsdk-*
 
 sdk/test/Performance/**/BenchmarkDotNet.Artifacts/*
+
+# DocFx
+docs/_site/
+docs/api/
