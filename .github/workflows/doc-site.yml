@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   actions: read
@@ -32,7 +31,7 @@ jobs:
         dotnet-version: 8.x
 
     - run: dotnet tool update -g docfx
-    - run: docfx /docs/docfx/json
+    - run: docfx ${GITHUB_WORKSPACE}/aws-sdk-net/docs/docfx/json
 
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
