@@ -31,7 +31,7 @@ jobs:
         dotnet-version: 8.x
 
     - run: dotnet tool update -g docfx
-    - run: docfx ${GITHUB_WORKSPACE}/aws-sdk-net/docs/docfx/json
+    - run: docfx ${GITHUB_WORKSPACE}/docs/docfx/json
 
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
