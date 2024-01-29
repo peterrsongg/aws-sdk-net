@@ -1,0 +1,4 @@
+apiRules:
+- exclude:
+    uidRegex: ^[a-zA-Z.]*.Internal.*
+    type: Namespace

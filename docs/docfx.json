@@ -5,12 +5,12 @@
         {
           "src": "../sdk/src/",
           "files": [
-            "Services/B*/**.Net45.csproj",
-            "Core/**.Net45.csproj"
+            "Services/Bedrock/**.Net45.csproj"
           ]
         }
       ],
-      "dest": "api"
+      "dest": "api",
+      "filter": "filterConfig.yml"
     }
   ],
   "build": {
@@ -34,7 +34,8 @@
     "output": "_site",
     "template": [
       "default",
-      "modern"
+      "modern",
+      "templates"
     ],
     "globalMetadata": {
       "_appName": "Aws Sdk For .Net API Docs",
