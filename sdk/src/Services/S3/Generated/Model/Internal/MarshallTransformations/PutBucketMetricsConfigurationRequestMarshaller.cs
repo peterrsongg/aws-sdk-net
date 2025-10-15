@@ -34,9 +34,9 @@ using System.Xml;
 namespace Amazon.S3.Model.Internal.MarshallTransformations
 {
     /// <summary>
-    /// PutObjectLegalHold Request Marshaller
+    /// PutBucketMetricsConfiguration Request Marshaller
     /// </summary>       
-    public partial class PutObjectLegalHoldRequestMarshaller : IMarshaller<IRequest, PutObjectLegalHoldRequest> , IMarshaller<IRequest,AmazonWebServiceRequest>
+    public partial class PutBucketMetricsConfigurationRequestMarshaller : IMarshaller<IRequest, PutBucketMetricsConfigurationRequest> , IMarshaller<IRequest,AmazonWebServiceRequest>
     {
         /// <summary>
         /// Marshaller the request object to the HTTP request.
@@ -45,7 +45,7 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
         /// <returns></returns>
         public IRequest Marshall(AmazonWebServiceRequest input)
         {
-            return this.Marshall((PutObjectLegalHoldRequest)input);
+            return this.Marshall((PutBucketMetricsConfigurationRequest)input);
         }
 
         /// <summary>
@@ -53,48 +53,31 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
         /// </summary>  
         /// <param name="publicRequest"></param>
         /// <returns></returns>
-        public IRequest Marshall(PutObjectLegalHoldRequest publicRequest)
+        public IRequest Marshall(PutBucketMetricsConfigurationRequest publicRequest)
         {
             var request = new DefaultRequest(publicRequest, "Amazon.S3");
             request.HttpMethod = "PUT";
-            request.AddSubResource("legal-hold");
-        
-            if (publicRequest.IsSetChecksumAlgorithm()) 
-            {
-                request.Headers["x-amz-sdk-checksum-algorithm"] = publicRequest.ChecksumAlgorithm;
-            }
-        
-            if (publicRequest.IsSetContentMD5()) 
-            {
-                request.Headers["Content-MD5"] = publicRequest.ContentMD5;
-            }
+            request.AddSubResource("metrics");
         
             if (publicRequest.IsSetExpectedBucketOwner()) 
             {
                 request.Headers["x-amz-expected-bucket-owner"] = publicRequest.ExpectedBucketOwner;
             }
-        
-            if (publicRequest.IsSetRequestPayer()) 
-            {
-                request.Headers["x-amz-request-payer"] = publicRequest.RequestPayer;
-            }
             if (string.IsNullOrEmpty(publicRequest.BucketName))
-                throw new System.ArgumentException("BucketName is a required property and must be set before making this call.", "PutObjectLegalHoldRequest.BucketName");
-            if (string.IsNullOrEmpty(publicRequest.Key))
-                throw new System.ArgumentException("Key is a required property and must be set before making this call.", "PutObjectLegalHoldRequest.Key");
-            request.AddPathResource("{Key+}", StringUtils.FromString(publicRequest.Key));
+                throw new System.ArgumentException("BucketName is a required property and must be set before making this call.", "PutBucketMetricsConfigurationRequest.BucketName");
             
-            if (publicRequest.IsSetVersionId())
-                request.Parameters.Add("versionId", StringUtils.FromString(publicRequest.VersionId));
-            request.ResourcePath = "/{Key+}";
+            if (publicRequest.IsSetMetricsId())
+                request.AddSubResource("id", StringUtils.FromString(publicRequest.MetricsId));
+            request.ResourcePath = "/";
             var stringWriter = new XMLEncodedStringWriter(CultureInfo.InvariantCulture);
             using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings() { Encoding = System.Text.Encoding.UTF8, OmitXmlDeclaration = true, NewLineHandling = NewLineHandling.Entitize }))
             {   
-                if (publicRequest.IsSetLegalHold())
+                if (publicRequest.IsSetMetricsConfiguration())
                 {
-                    xmlWriter.WriteStartElement("LegalHold", "http://s3.amazonaws.com/doc/2006-03-01/");
-                    if(publicRequest.LegalHold.IsSetStatus())
-                        xmlWriter.WriteElementString("Status", StringUtils.FromString(publicRequest.LegalHold.Status));
+                    xmlWriter.WriteStartElement("MetricsConfiguration", "http://s3.amazonaws.com/doc/2006-03-01/");
+                    MetricsFilterCustomMarshall(publicRequest, xmlWriter);
+                    if(publicRequest.MetricsConfiguration.IsSetMetricsId())
+                        xmlWriter.WriteElementString("Id", StringUtils.FromString(publicRequest.MetricsConfiguration.MetricsId));
 
 
                     xmlWriter.WriteEndElement();
@@ -106,13 +89,6 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
                 string content = stringWriter.ToString();
                 request.Content = System.Text.Encoding.UTF8.GetBytes(content);
                 request.Headers["Content-Type"] = "application/xml";
-                ChecksumUtils.SetChecksumData(
-                    request,
-                    publicRequest.ChecksumAlgorithm,
-                    fallbackToMD5: false,
-                    isRequestChecksumRequired: true,
-                    headerName: "x-amz-sdk-checksum-algorithm"
-                );
                 request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2006-03-01";            
             } 
             catch (EncoderFallbackException e) 
@@ -122,9 +98,9 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
             request.UseQueryString = true;
             return request;
         }
-        private static PutObjectLegalHoldRequestMarshaller _instance = new PutObjectLegalHoldRequestMarshaller();        
+        private static PutBucketMetricsConfigurationRequestMarshaller _instance = new PutBucketMetricsConfigurationRequestMarshaller();        
 
-        internal static PutObjectLegalHoldRequestMarshaller GetInstance()
+        internal static PutBucketMetricsConfigurationRequestMarshaller GetInstance()
         {
             return _instance;
         }
@@ -132,7 +108,7 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
         /// <summary>
         /// Gets the singleton.
         /// </summary>  
-        public static PutObjectLegalHoldRequestMarshaller Instance
+        public static PutBucketMetricsConfigurationRequestMarshaller Instance
         {
             get
             {
@@ -140,6 +116,6 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
             }
         }
 
-        partial void PostMarshallCustomization(DefaultRequest defaultRequest, PutObjectLegalHoldRequest publicRequest);
+        partial void PostMarshallCustomization(DefaultRequest defaultRequest, PutBucketMetricsConfigurationRequest publicRequest);
     }    
 }
